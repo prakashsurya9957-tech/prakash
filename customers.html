@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Details - Star Pro Ice Cream</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+
+    <button class="mobile-nav-toggle"><i class="fas fa-bars"></i></button>
+
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-ice-cream"></i> STAR PRO
+                </div>
+            </div>
+
+            <ul class="nav-links">
+                <li><a href="profile.html"><i class="fas fa-user-circle"></i> Profile</a></li>
+                <li><a href="menu.html"><i class="fas fa-ice-cream"></i> Ice Cream Menu</a></li>
+                <li><a href="order.html"><i class="fas fa-shopping-basket"></i> Order</a></li>
+                <li><a href="orders.html"><i class="fas fa-history"></i> Order History</a></li>
+                <li><a href="customers.html" class="active"><i class="fas fa-users"></i> Customer Details</a></li>
+                <li><a href="company.html"><i class="fas fa-building"></i> Company Details</a></li>
+                <li><a href="location.html"><i class="fas fa-map-marker-alt"></i> Location</a></li>
+                <li><a href="payments.html"><i class="fas fa-credit-card"></i> Payment / Transactions</a></li>
+                <li><a href="contact.html"><i class="fas fa-phone-alt"></i> Contact Us</a></li>
+            </ul>
+
+            <button onclick="handleLogout()" class="btn btn-logout">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-header">
+                <h1>Customer Management</h1>
+            </div>
+
+            <div class="role-only-owner">
+                <div id="customer-list"
+                    style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem;">
+                    <!-- Customers populated by JS -->
+                    <p style="color: var(--text-muted)">Loading customers...</p>
+                </div>
+            </div>
+
+            <div class="role-only-customer">
+                <div class="card" style="text-align: center; padding: 4rem;">
+                    <i class="fas fa-shield-alt fa-4x" style="color: #ef4444; margin-bottom: 1.5rem;"></i>
+                    <h2>Access Denied</h2>
+                    <p style="color: var(--text-muted); margin-top: 1rem;">This page is only accessible by the Business
+                        Owner.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const userData = JSON.parse(localStorage.getItem('starpro_user'));
+            if (userData && userData.role === 'Customer') {
+                // Already handled by CSS, but added security
+                console.log("Customer restricted");
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - Star Pro Ice Cream</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+
+    <button class="mobile-nav-toggle"><i class="fas fa-bars"></i></button>
+
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-ice-cream"></i> STAR PRO
+                </div>
+            </div>
+
+            <ul class="nav-links">
+                <li><a href="profile.html" class="active"><i class="fas fa-user-circle"></i> Profile</a></li>
+                <li><a href="menu.html"><i class="fas fa-ice-cream"></i> Ice Cream Menu</a></li>
+                <li><a href="order.html"><i class="fas fa-shopping-basket"></i> Order</a></li>
+                <li><a href="orders.html"><i class="fas fa-history"></i> Order History</a></li>
+                <li><a href="customers.html"><i class="fas fa-users"></i> Customer Details</a></li>
+                <li><a href="company.html"><i class="fas fa-building"></i> Company Details</a></li>
+                <li><a href="location.html"><i class="fas fa-map-marker-alt"></i> Location</a></li>
+                <li><a href="payments.html"><i class="fas fa-credit-card"></i> Payment / Transactions</a></li>
+                <li><a href="contact.html"><i class="fas fa-phone-alt"></i> Contact Us</a></li>
+            </ul>
+
+            <button onclick="handleLogout()" class="btn btn-logout">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-header">
+                <h1>My Profile</h1>
+            </div>
+
+            <div class="card">
+                <h2><i class="fas fa-user-edit" style="color: var(--primary)"></i> Personal Details</h2>
+                <form onsubmit="updateProfile(event)" style="margin-top: 1.5rem;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" id="p-name" class="form-control" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Mobile Number</label>
+                            <input type="tel" id="p-phone" class="form-control" placeholder="Mobile Number" required
+                                readonly>
+                        </div>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group">
+                            <label>Alternate Mobile Number</label>
+                            <input type="tel" id="p-alt-phone" class="form-control" placeholder="Optional Number">
+                        </div>
+                        <div class="form-group">
+                            <label>Current Role</label>
+                            <input type="text" id="p-role" class="form-control" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Delivery Address</label>
+                        <textarea id="p-address" class="form-control" rows="3"
+                            placeholder="Enter your full address"></textarea>
+                    </div>
+
+                    <div
+                        style="background: var(--accent); padding: 1rem; border-radius: 1rem; margin-bottom: 1.5rem; border: 1px dashed var(--primary);">
+                        <p style="font-size: 0.85rem; margin-bottom: 0.5rem;"><i class="fas fa-map-marker-alt"></i>
+                            Default Location</p>
+                        <button type="button" onclick="fetchLocation()" class="btn btn-secondary"
+                            style="width: auto; padding: 0.5rem 1rem;">
+                            <i class="fas fa-crosshairs"></i> Refresh GPS Coords
+                        </button>
+                        <div id="location-status"
+                            style="font-size: 0.8rem; margin-top: 0.5rem; color: var(--text-muted);">Not set</div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        let userLocation = null;
+
+        function loadProfile() {
+            const user = JSON.parse(localStorage.getItem('starpro_user'));
+            document.getElementById('p-name').value = user.name || '';
+            document.getElementById('p-phone').value = user.phone || user.username;
+            document.getElementById('p-alt-phone').value = user.altPhone || '';
+            document.getElementById('p-role').value = user.role;
+            document.getElementById('p-address').value = user.address || '';
+
+            if (user.location) {
+                userLocation = user.location;
+                document.getElementById('location-status').innerText = `📍 Coords: ${user.location.lat.toFixed(4)}, ${user.location.lng.toFixed(4)}`;
+            }
+        }
+
+        function fetchLocation() {
+            const status = document.getElementById('location-status');
+            status.innerText = "Accessing GPS...";
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        userLocation = {
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude
+                        };
+                        status.innerText = `📍 Coords: ${userLocation.lat.toFixed(4)}, ${userLocation.lng.toFixed(4)}`;
+                        status.style.color = "#2e7d32";
+                    },
+                    (error) => {
+                        status.innerText = "Error: Permission Denied";
+                        status.style.color = "#d32f2f";
+                    }
+                );
+            }
+        }
+
+        function updateProfile(e) {
+            e.preventDefault();
+            const user = JSON.parse(localStorage.getItem('starpro_user'));
+            user.name = document.getElementById('p-name').value;
+            user.altPhone = document.getElementById('p-alt-phone').value;
+            user.address = document.getElementById('p-address').value;
+            user.location = userLocation;
+
+            localStorage.setItem('starpro_user', JSON.stringify(user));
+
+            // Also update in DB users list
+            const index = DB.users.findIndex(u => u.phone === user.phone || u.username === user.username);
+            if (index !== -1) {
+                DB.users[index] = user;
+                DB.saveUsers();
+            }
+
+            alert("Profile updated successfully! ✨");
+        }
+
+        document.addEventListener('DOMContentLoaded', loadProfile);
+    </script>
+</body>
+
+</html>

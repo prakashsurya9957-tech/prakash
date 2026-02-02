@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payments - Star Pro Ice Cream</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+
+    <button class="mobile-nav-toggle"><i class="fas fa-bars"></i></button>
+
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-ice-cream"></i> STAR PRO
+                </div>
+            </div>
+
+            <ul class="nav-links">
+                <li><a href="profile.html"><i class="fas fa-user-circle"></i> Profile</a></li>
+                <li><a href="menu.html"><i class="fas fa-ice-cream"></i> Ice Cream Menu</a></li>
+                <li><a href="order.html"><i class="fas fa-shopping-basket"></i> Order</a></li>
+                <li><a href="orders.html"><i class="fas fa-history"></i> Order History</a></li>
+                <li><a href="customers.html"><i class="fas fa-users"></i> Customer Details</a></li>
+                <li><a href="company.html"><i class="fas fa-building"></i> Company Details</a></li>
+                <li><a href="location.html"><i class="fas fa-map-marker-alt"></i> Location</a></li>
+                <li><a href="payments.html" class="active"><i class="fas fa-credit-card"></i> Payment / Transactions</a>
+                </li>
+                <li><a href="contact.html"><i class="fas fa-phone-alt"></i> Contact Us</a></li>
+            </ul>
+
+            <button onclick="handleLogout()" class="btn btn-logout">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-header">
+                <h1>Payments & Transactions</h1>
+            </div>
+
+            <div class="card">
+                <h2><i class="fas fa-receipt" style="color: var(--primary)"></i> Transaction Log</h2>
+                <div class="table-responsive" style="margin-top: 1.5rem;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Transaction ID</th>
+                                <th>Method</th>
+                                <th>Status</th>
+                                <th>Date & Time</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody id="payments-table-body">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const userData = JSON.parse(localStorage.getItem('starpro_user'));
+            const orders = JSON.parse(localStorage.getItem('starpro_orders')) || [];
+            const tbody = document.getElementById('payments-table-body');
+
+            const filteredOrders = userData.role === 'Customer'
+                ? orders.filter(o => o.customerPhone === userData.phone)
+                : orders;
+
+            tbody.innerHTML = filteredOrders.map(o => `
+                <tr>
+                    <td style="font-family: monospace; font-size: 0.85rem;">TXN${o.id}</td>
+                    <td><i class="fas fa-mobile-alt"></i> ${o.method || 'GPay'}</td>
+                    <td><span style="color: #2e7d32; font-weight: 600;"><i class="fas fa-check-circle"></i> Success</span></td>
+                    <td style="font-size: 0.85rem;">${formatDate(o.date)}</td>
+                    <td style="color: var(--primary); font-weight: 700;">₹${o.total || o.amount}</td>
+                </tr>
+             `).join('');
+
+            if (filteredOrders.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 2rem; color: var(--text-muted);">No transactions found.</td></tr>`;
+            }
+        });
+    </script>
+</body>
+
+</html>

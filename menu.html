@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ice Cream Menu - Star Pro Ice Cream</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .ice-cream-card {
+            background: white;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .ice-cream-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(244, 143, 177, 0.15);
+        }
+
+        .ice-cream-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-bottom: 3px solid var(--accent);
+        }
+
+        .card-body {
+            padding: 1.25rem;
+        }
+
+        .availability {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .in-stock {
+            background: rgba(76, 175, 80, 0.1);
+            color: #2e7d32;
+        }
+
+        .out-of-stock {
+            background: rgba(244, 67, 54, 0.1);
+            color: #d32f2f;
+        }
+
+        .category-header {
+            margin: 2rem 0 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary);
+        }
+
+        .price {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--secondary);
+        }
+
+        .add-btn {
+            background: var(--bg-gradient);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .add-btn:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+
+<body>
+
+    <button class="mobile-nav-toggle"><i class="fas fa-bars"></i></button>
+
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-ice-cream"></i> STAR PRO
+                </div>
+            </div>
+
+            <ul class="nav-links">
+                <li><a href="profile.html"><i class="fas fa-user-circle"></i> Profile</a></li>
+                <li><a href="menu.html" class="active"><i class="fas fa-ice-cream"></i> Ice Cream Menu</a></li>
+                <li><a href="order.html"><i class="fas fa-shopping-basket"></i> Order</a></li>
+                <li><a href="orders.html"><i class="fas fa-history"></i> Order History</a></li>
+                <li><a href="customers.html"><i class="fas fa-users"></i> Customer Details</a></li>
+                <li><a href="company.html"><i class="fas fa-building"></i> Company Details</a></li>
+                <li><a href="location.html"><i class="fas fa-map-marker-alt"></i> Location</a></li>
+                <li><a href="payments.html"><i class="fas fa-credit-card"></i> Payment / Transactions</a></li>
+                <li><a href="contact.html"><i class="fas fa-phone-alt"></i> Contact Us</a></li>
+            </ul>
+
+            <button onclick="handleLogout()" class="btn btn-logout">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-header">
+                <h1>Ice Cream Menu</h1>
+            </div>
+
+            <h2 class="category-header"><i class="fas fa-bolt"></i> Popular Choices</h2>
+            <div class="menu-grid">
+                <!-- Vanilla -->
+                <div class="ice-cream-card">
+                    <span class="availability in-stock">In Stock</span>
+                    <img src="C:/Users/Dell/.gemini/antigravity/brain/54f268ed-f793-42bc-9b4e-70be15dbb56e/ice_cream_menu_items_1770040622387.png"
+                        alt="Vanilla" class="ice-cream-img">
+                    <div class="card-body">
+                        <h3>Classic Vanilla</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0.5rem 0;">Pure Madagascar
+                            vanilla elegance.</p>
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;">
+                            <span class="price">₹80</span>
+                            <button class="add-btn" onclick="addToCart('Classic Vanilla', 80)">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chocolate -->
+                <div class="ice-cream-card">
+                    <span class="availability in-stock">In Stock</span>
+                    <img src="C:/Users/Dell/.gemini/antigravity/brain/54f268ed-f793-42bc-9b4e-70be15dbb56e/ice_cream_menu_items_1770040622387.png"
+                        alt="Chocolate" class="ice-cream-img">
+                    <div class="card-body">
+                        <h3>Chocolate Deluxe</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0.5rem 0;">Dutch-processed cocoa
+                            richness.</p>
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;">
+                            <span class="price">₹95</span>
+                            <button class="add-btn" onclick="addToCart('Chocolate Deluxe', 95)">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Strawberry -->
+                <div class="ice-cream-card">
+                    <span class="availability out-of-stock">Out of Stock</span>
+                    <img src="C:/Users/Dell/.gemini/antigravity/brain/54f268ed-f793-42bc-9b4e-70be15dbb56e/ice_cream_menu_items_1770040622387.png"
+                        alt="Strawberry" class="ice-cream-img" style="filter: grayscale(0.5);">
+                    <div class="card-body">
+                        <h3>Strawberry Bliss</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0.5rem 0;">Farm-fresh strawberry
+                            pieces.</p>
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;">
+                            <span class="price">₹85</span>
+                            <button class="add-btn" style="opacity: 0.5; cursor: not-allowed;" disabled>Sold
+                                Out</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mango -->
+                <div class="ice-cream-card">
+                    <span class="availability in-stock">In Stock</span>
+                    <img src="C:/Users/Dell/.gemini/antigravity/brain/54f268ed-f793-42bc-9b4e-70be15dbb56e/ice_cream_menu_items_1770040622387.png"
+                        alt="Mango" class="ice-cream-img">
+                    <div class="card-body">
+                        <h3>Mango Magic</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0.5rem 0;">Alphonso mango pulp
+                            delight.</p>
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;">
+                            <span class="price">₹110</span>
+                            <button class="add-btn" onclick="addToCart('Mango Magic', 110)">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        function addToCart(name, price) {
+            let cart = JSON.parse(localStorage.getItem('starpro_cart')) || [];
+            cart.push({ name, price, id: Date.now() });
+            localStorage.setItem('starpro_cart', JSON.stringify(cart));
+            alert(`${name} added to cart! 🛒`);
+        }
+    </script>
+</body>
+
+</html>

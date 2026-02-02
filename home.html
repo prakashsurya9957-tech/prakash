@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Star Pro - Happiness in every scoop!</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .hero {
+            height: 80vh;
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+            font-weight: 800;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            color: var(--text-muted);
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 5rem 2rem;
+            background: white;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 3rem 2rem;
+            border-radius: 2rem;
+            background: #fffafb;
+            box-shadow: 0 10px 40px rgba(244, 143, 177, 0.08);
+            transition: 0.3s;
+            border: 1px solid rgba(244, 143, 177, 0.1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+        }
+
+        .feature-card i {
+            font-size: 3.5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-section {
+            padding: 5rem 2rem;
+            text-align: center;
+            background: var(--accent);
+        }
+
+        footer {
+            background: white;
+            color: var(--text-muted);
+            padding: 4rem 2rem;
+            text-align: center;
+            border-top: 1px solid var(--border);
+        }
+
+        .social-links a {
+            color: var(--primary);
+            font-size: 1.7rem;
+            margin: 0 1.2rem;
+            transition: 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--secondary);
+            transform: scale(1.2);
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav
+        style="background: rgba(255,255,255,0.8); backdrop-filter: blur(10px); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 20px rgba(0,0,0,0.05);">
+        <div class="logo" style="margin-bottom: 0;">
+            <i class="fas fa-ice-cream"></i> STAR PRO
+        </div>
+        <div class="nav-links" style="display: flex; gap: 2rem;">
+            <a href="#" style="text-decoration: none; color: var(--text-main); font-weight: 600;">Home</a>
+            <a href="menu.html" style="text-decoration: none; color: var(--text-main); font-weight: 600;">Menu</a>
+            <a href="index.html" style="text-decoration: none; color: var(--text-main); font-weight: 600;">Login</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div
+            style="background: white; padding: 1.5rem; border-radius: 50%; width: 120px; height: 120px; display: flex; align-items: center; justify-content: center; margin-bottom: 2rem; box-shadow: 0 10px 30px rgba(244, 143, 177, 0.2);">
+            <i class="fas fa-ice-cream fa-4x" style="color: var(--primary);"></i>
+        </div>
+        <h1>Welcome to Star Pro</h1>
+        <p>Premium Gourmet Ice Cream Crafted for Celestial Happiness</p>
+        <div style="display: flex; gap: 1.5rem; margin-top: 1rem;">
+            <a href="menu.html" class="btn btn-primary"
+                style="width: auto; padding: 1rem 3rem; font-size: 1.1rem; border-radius: 100px;">Explore Menu</a>
+            <a href="index.html" class="btn btn-secondary"
+                style="width: auto; padding: 1rem 3rem; font-size: 1.1rem; border-radius: 100px;">Get Started</a>
+        </div>
+    </header>
+
+    <section class="features">
+        <div class="feature-card">
+            <i class="fas fa-certificate"></i>
+            <h3>Artisanal Quality</h3>
+            <p>Hand-crafted with organic milk and hand-picked real fruits for an authentic taste.</p>
+        </div>
+        <div class="feature-card">
+            <i class="fas fa-truck-fast"></i>
+            <h3>Live Tracking</h3>
+            <p>Watch your frozen treats travel to you in real-time with our live GPS tracking.</p>
+        </div>
+        <div class="feature-card">
+            <i class="fas fa-star"></i>
+            <h3>VIP Experience</h3>
+            <p>Manage your profile, track transactions, and get personalized recommendations.</p>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <h2 style="margin-bottom: 1.5rem; color: var(--text-main); font-size: 2.5rem;">Join the Star Pro Universe!</h2>
+        <p style="margin-bottom: 3rem; color: var(--text-muted); font-size: 1.1rem;">Follow our sweet journey and share
+            your moments</p>
+        <div class="social-links">
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-whatsapp"></i></a>
+        </div>
+    </section>
+
+    <footer>
+        <p style="font-weight: 600; color: var(--text-main);">STAR PRO ICE CREAM</p>
+        <p style="margin-top: 1rem;">&copy; 2026 Star Pro. All rights reserved.</p>
+        <p style="font-size: 0.9rem; opacity: 0.7; margin-top: 0.5rem;">Coimbatore's Finest Gourmet Experiment.</p>
+    </footer>
+
+</body>
+
+</html>

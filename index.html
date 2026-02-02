@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login / Signup - Star Pro Ice Cream</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body class="auth-page">
+
+    <div class="auth-container">
+        <div class="auth-box" id="login-box">
+            <div class="logo">
+                <i class="fas fa-ice-cream"></i> STAR PRO
+            </div>
+            <h2 style="color: var(--text-main); margin-bottom: 0.5rem;">Welcome Back!</h2>
+            <p style="color: var(--text-muted); margin-bottom: 2rem; font-style: italic;">"Serving Happiness in Every
+                Scoop"</p>
+
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <input type="text" id="username" class="form-control" placeholder="Username / Mobile Number"
+                        required>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="password" class="form-control" placeholder="Password" required>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    Access Dashboard <i class="fas fa-arrow-right" style="margin-left: 0.5rem"></i>
+                </button>
+                <p style="margin-top: 1.5rem; color: var(--text-muted); font-size: 0.9rem;">
+                    New to Star Pro? <a href="#" onclick="toggleAuth()"
+                        style="color: var(--primary); font-weight: 600; text-decoration: none;">Create an Account</a>
+                </p>
+            </form>
+        </div>
+
+        <div class="auth-box" id="signup-box" style="display: none;">
+            <div class="logo">
+                <i class="fas fa-ice-cream"></i> STAR PRO
+            </div>
+            <h2 style="color: var(--text-main); margin-bottom: 0.5rem;">Join the Family</h2>
+            <p style="color: var(--text-muted); margin-bottom: 2rem; font-style: italic;">"Sweeten your life with Star
+                Pro"</p>
+
+            <form onsubmit="handleSignup(event)">
+                <div class="form-group">
+                    <input type="text" id="s-name" class="form-control" placeholder="Full Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="tel" id="s-phone" class="form-control" placeholder="Mobile Number" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="s-password" class="form-control" placeholder="Create Password" required>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    Create Account <i class="fas fa-star" style="margin-left: 0.5rem"></i>
+                </button>
+                <p style="margin-top: 1.5rem; color: var(--text-muted); font-size: 0.9rem;">
+                    Already have an account? <a href="#" onclick="toggleAuth()"
+                        style="color: var(--primary); font-weight: 600; text-decoration: none;">Login Here</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
