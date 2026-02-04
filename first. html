@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Star Pro Ice Cream</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .upi-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .upi-btn {
+            padding: 1rem;
+            border-radius: 1rem;
+            border: 2px solid var(--border);
+            background: white;
+            cursor: pointer;
+            text-align: center;
+            font-weight: 600;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .upi-btn:hover {
+            border-color: var(--primary);
+            background: rgba(244, 143, 177, 0.05);
+        }
+
+        .upi-btn img {
+            height: 20px;
+        }
+
+        .location-box {
+            background: var(--accent);
+            padding: 1rem;
+            border-radius: 1rem;
+            margin-top: 1.5rem;
+            border: 1px dashed var(--primary);
+        }
+
+        .type-btn {
+            padding: 0.75rem;
+            border-radius: 0.75rem;
+            border: 2px solid var(--border);
+            background: white;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .type-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            box-shadow: 0 4px 10px rgba(244, 143, 177, 0.3);
+        }
+    </style>
+</head>
+
+<body>
+
+    <button class="mobile-nav-toggle"><i class="fas fa-bars"></i></button>
+
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-ice-cream"></i> STAR PRO
+                </div>
+            </div>
+
+            <ul class="nav-links">
+                <li><a href="profile.html"><i class="fas fa-user-circle"></i> Profile</a></li>
+                <li><a href="menu.html"><i class="fas fa-ice-cream"></i> Ice Cream Menu</a></li>
+                <li><a href="order.html" class="active"><i class="fas fa-shopping-basket"></i> Order</a></li>
+                <li><a href="orders.html"><i class="fas fa-history"></i> Order History</a></li>
+                <li><a href="customers.html"><i class="fas fa-users"></i> Customer Details</a></li>
+                <li><a href="company.html"><i class="fas fa-building"></i> Company Details</a></li>
+                <li><a href="location.html"><i class="fas fa-map-marker-alt"></i> Location</a></li>
+                <li><a href="payments.html"><i class="fas fa-credit-card"></i> Payment / Transactions</a></li>
+                <li><a href="contact.html"><i class="fas fa-phone-alt"></i> Contact Us</a></li>
+            </ul>
+
+            <button onclick="handleLogout()" class="btn btn-logout">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-header">
+                <a href="dashboard.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+                <h1>Complete Your Order</h1>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 350px; gap: 2rem;">
+                <div class="card">
+                    <h2><i class="fas fa-shopping-cart" style="color: var(--primary)"></i> Your Cart</h2>
+                    <div id="cart-container" style="margin-top: 1rem;">
+                        <!-- Cart items will be loaded here -->
+                    </div>
+                </div>
+
+                <div>
+                    <div class="card">
+                        <h2>Order Summary</h2>
+                        <div style="margin: 1.5rem 0;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span>Subtotal</span>
+                                <span id="subtotal">₹0</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span>Delivery</span>
+                                <span style="color: #2e7d32;">FREE</span>
+                            </div>
+                            <hr style="border: none; border-top: 1px solid var(--border); margin: 1rem 0;">
+                            <div
+                                style="display: flex; justify-content: space-between; font-weight: 700; font-size: 1.25rem;">
+                                <span>Total</span>
+                                <span id="total-amount" class="text-accent">₹0</span>
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 1.5rem;">
+                            <p style="font-size: 0.85rem; margin-bottom: 0.5rem;"><i class="fas fa-truck-fast"></i>
+                                Select Order Type</p>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+                                <button id="type-online" class="type-btn active" onclick="setOrderType('Online')">
+                                    <i class="fas fa-globe"></i> Online
+                                </button>
+                                <button id="type-offline" class="type-btn" onclick="setOrderType('Offline')">
+                                    <i class="fas fa-store"></i> Offline
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="location-container" class="location-box">
+                            <p style="font-size: 0.85rem; margin-bottom: 0.5rem;"><i class="fas fa-map-marker-alt"></i>
+                                Delivery Location</p>
+                            <button onclick="fetchLocation()" class="btn btn-secondary"
+                                style="font-size: 0.8rem; padding: 0.5rem;">
+                                <i class="fas fa-crosshairs"></i> Fetch Live Location
+                            </button>
+                            <div id="location-status"
+                                style="font-size: 0.75rem; margin-top: 0.5rem; color: var(--text-muted);">Not set</div>
+                        </div>
+
+                        <div class="upi-buttons">
+                            <button class="upi-btn" onclick="processPayment('GPay')">
+                                <i class="fab fa-google-pay"></i> GPay
+                            </button>
+                            <button class="upi-btn" onclick="processPayment('PhonePe')">
+                                <i class="fas fa-mobile-alt"></i> PhonePe
+                            </button>
+                            <button class="upi-btn" onclick="processPayment('Paytm')">
+                                <i class="fas fa-wallet"></i> Paytm
+                            </button>
+                            <button class="upi-btn" onclick="processPayment('UPI')">
+                                <i class="fas fa-qrcode"></i> Any UPI
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        let currentLocation = null;
+        let orderType = 'Online';
+
+        function setOrderType(type) {
+            orderType = type;
+            document.getElementById('type-online').classList.toggle('active', type === 'Online');
+            document.getElementById('type-offline').classList.toggle('active', type === 'Offline');
+
+            const locContainer = document.getElementById('location-container');
+            if (type === 'Offline') {
+                locContainer.style.display = 'none';
+                currentLocation = null;
+                document.getElementById('location-status').innerText = "Not required for offline";
+            } else {
+                locContainer.style.display = 'block';
+                document.getElementById('location-status').innerText = "Not set";
+            }
+        }
+
+        function loadCart() {
+            const cartItems = JSON.parse(localStorage.getItem('starpro_cart')) || [];
+            const container = document.getElementById('cart-container');
+            const subtotalEl = document.getElementById('subtotal');
+            const totalEl = document.getElementById('total-amount');
+
+            if (cartItems.length === 0) {
+                container.innerHTML = `<div style="text-align: center; padding: 2rem; color: var(--text-muted);">
+                    <i class="fas fa-shopping-basket fa-3x" style="margin-bottom: 1rem; opacity: 0.3;"></i>
+                    <p>Your cart is empty.</p>
+                    <a href="menu.html" style="color: var(--primary); text-decoration: none; font-weight: 600;">Go to Menu</a>
+                </div>`;
+                return;
+            }
+
+            let total = 0;
+            container.innerHTML = cartItems.map((item, index) => {
+                total += item.price;
+                return `
+                    <div class="cart-item">
+                        <div>
+                            <div style="font-weight: 600;">${item.name}</div>
+                            <div style="font-size: 0.8rem; color: var(--text-muted);">Quantity: 1</div>
+                        </div>
+                        <div style="display: flex; gap: 1rem; align-items: center;">
+                            <span style="font-weight: 600;">₹${item.price}</span>
+                            <i class="fas fa-trash-alt" style="color: #ef4444; cursor: pointer;" onclick="removeFromCart(${index})"></i>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            subtotalEl.innerText = `₹${total}`;
+            totalEl.innerText = `₹${total}`;
+        }
+
+        function removeFromCart(index) {
+            let cart = JSON.parse(localStorage.getItem('starpro_cart')) || [];
+            cart.splice(index, 1);
+            localStorage.setItem('starpro_cart', JSON.stringify(cart));
+            loadCart();
+        }
+
+        function fetchLocation() {
+            const btn = event.target;
+            const status = document.getElementById('location-status');
+            status.innerText = "Accessing GPS...";
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        currentLocation = {
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude
+                        };
+                        status.innerText = `📍 Coords: ${currentLocation.lat.toFixed(4)}, ${currentLocation.lng.toFixed(4)}`;
+                        status.style.color = "#2e7d32";
+                    },
+                    (error) => {
+                        status.innerText = "Error: Permission Denied";
+                        status.style.color = "#d32f2f";
+                    }
+                );
+            } else {
+                status.innerText = "Geolocation not supported";
+            }
+        }
+
+        function processPayment(method) {
+            const cart = JSON.parse(localStorage.getItem('starpro_cart')) || [];
+            if (cart.length === 0) {
+                alert("Please add items to cart first!");
+                return;
+            }
+
+            if (orderType === 'Online' && !currentLocation) {
+                alert("Please share your location for delivery!");
+                return;
+            }
+
+            const total = cart.reduce((sum, i) => sum + i.price, 0);
+            const user = JSON.parse(localStorage.getItem('starpro_user'));
+            const transactionId = `TXN${Date.now()}`;
+
+            // Construct UPI URL
+            // Format: upi://pay?pa=address@bank&pn=PayeeName&am=Amount&tn=Note&tr=ID
+            const upiUrl = `upi://pay?pa=${CONFIG.upiId}&pn=${encodeURIComponent(CONFIG.businessName)}&am=${total}&tn=${encodeURIComponent(`Order from ${user.name}`)}&tr=${transactionId}&cu=INR`;
+
+            const overlay = document.createElement('div');
+            overlay.id = "payment-overlay";
+            overlay.style = "position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 1000; display: flex; align-items: center; justify-content: center; color: var(--text-main); flex-direction: column; text-align: center; backdrop-filter: blur(8px); padding: 1rem;";
+
+            // Check if mobile
+            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+            if (isMobile) {
+                overlay.innerHTML = `
+                    <div style="background: white; padding: 2.5rem; border-radius: 2.5rem; max-width: 320px; width: 90%;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">🍦</div>
+                        <h3>Paying with ${method}</h3>
+                        <p style="font-size: 0.9rem; color: var(--text-muted); margin: 1rem 0;">Redirecting you to complete the payment of <strong>₹${total}</strong>.</p>
+                        <a href="${upiUrl}" class="btn btn-primary" style="text-decoration: none; margin-bottom: 1rem;" onclick="showConfirmationButton()">Open ${method} App</a>
+                        <button class="btn" style="background: #f1f1f1; color: var(--text-muted);" onclick="this.closest('#payment-overlay').remove()">Cancel</button>
+                    </div>
+                `;
+            } else {
+                // Desktop: Show QR Code
+                const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiUrl)}`;
+                overlay.innerHTML = `
+                    <div style="background: white; padding: 2.5rem; border-radius: 2.5rem; max-width: 350px; width: 95%;">
+                        <h3>Scan to Pay</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;">Scan this QR code with your ${method} or any UPI app to pay <strong>₹${total}</strong></p>
+                        <div style="background: white; padding: 1rem; border: 1px solid var(--border); border-radius: 1rem; display: inline-block; margin-bottom: 1.5rem;">
+                            <img src="${qrUrl}" alt="UPI QR Code" style="width: 200px; height: 200px;">
+                        </div>
+                        <div style="display: grid; gap: 1rem;">
+                            <button class="btn btn-primary" onclick="confirmOrder('${method}')">I Have Paid Successfully</button>
+                            <button class="btn" style="background: #f1f1f1; color: var(--text-muted);" onclick="this.closest('#payment-overlay').remove()">Cancel Payment</button>
+                        </div>
+                    </div>
+                `;
+            }
+            document.body.appendChild(overlay);
+        }
+
+        function showConfirmationButton() {
+            const container = document.querySelector('#payment-overlay div');
+            container.innerHTML = `
+                <div style="font-size: 4rem; margin-bottom: 1rem; color: #4caf50;"><i class="fas fa-check-circle"></i></div>
+                <h3>Payment Done?</h3>
+                <p style="font-size: 0.9rem; color: var(--text-muted); margin: 1rem 0;">If you have completed the payment in your app, click below to confirm your order.</p>
+                <button class="btn btn-primary" onclick="confirmOrder('UPI')">Confirm Order</button>
+                <p style="font-size: 0.75rem; color: #ef4444; margin-top: 1rem;">Only confirm after successful payment!</p>
+            `;
+        }
+
+        function confirmOrder(method) {
+            const cart = JSON.parse(localStorage.getItem('starpro_cart')) || [];
+            if (cart.length === 0) return;
+
+            const total = cart.reduce((sum, i) => sum + i.price, 0);
+            const user = JSON.parse(localStorage.getItem('starpro_user'));
+
+            const newOrder = {
+                id: Date.now(),
+                items: cart.map(i => i.name),
+                total: total,
+                method: method,
+                type: orderType,
+                customer: user.name,
+                customerPhone: user.phone,
+                location: currentLocation,
+                status: 'Placed',
+                date: new Date().toISOString()
+            };
+
+            const orders = JSON.parse(localStorage.getItem('starpro_orders')) || [];
+            orders.unshift(newOrder);
+            localStorage.setItem('starpro_orders', JSON.stringify(orders));
+            localStorage.removeItem('starpro_cart');
+
+            // --- WhatsApp Integration ---
+            const message = `🌟 *New Order Received!* 🌟\n\n` +
+                `📦 *Type:* ${orderType}\n` +
+                `👤 *Customer:* ${user.name}\n` +
+                `📞 *Phone:* ${user.phone}\n` +
+                `📍 *Location:* ${orderType === 'Online' ? (currentLocation ? `https://www.google.com/maps?q=${currentLocation.lat},${currentLocation.lng}` : 'Not shared') : 'Not required (Offline)'}\n` +
+                `${user.address && orderType === 'Online' ? `🏠 *Address:* ${user.address}\n` : ''}` +
+                `----------------------------\n` +
+                `🍦 *Items:* \n${cart.map(i => `- ${i.name} (₹${i.price})`).join('\n')}\n` +
+                `----------------------------\n` +
+                `💰 *Total Amount:* ₹${total}\n` +
+                `💳 *Payment:* ${method}\n\n` +
+                `Please process this scoop of happiness! 🍦`;
+
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappUrl = `https://wa.me/917904410087?text=${encodedMessage}`;
+
+            // Redirect to WhatsApp to send the message
+            window.location.href = whatsappUrl;
+        }
+
+        document.addEventListener('DOMContentLoaded', loadCart);
+    </script>
+</body>
+
+</html>
